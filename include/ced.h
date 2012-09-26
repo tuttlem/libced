@@ -6,4 +6,6 @@
 #include "slist.h"
 #include "dlist.h"
 
+#include "bintree.h"
+
 #endif /* __libced_ced_h_ */
