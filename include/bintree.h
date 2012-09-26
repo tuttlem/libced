@@ -38,13 +38,32 @@ typedef struct bintree_t {
 /**
  * Creates a binary tree
  * @param c The node comparator
+ * @returns A tree pointer
  */
 bintree* bintree_create(bintree_cmp c);
 
 /**
- * Destroyes a binary tree
+ * Destroys a binary tree
  * @param t The tree to destroy
+ * @returns 0 on success, otherwise -1
  */
 int bintree_destroy(bintree **t);
+
+/**
+ * Inserts an item into the tree
+ * @param t The tree to insert into
+ * @param key The key to store the value with
+ * @param data The data to store
+ * @returns 0 on success, otherwise -1
+ */
+int bintree_insert(bintree *t, void *key, void *data);
+
+/**
+ * Attempts to find an item in the tree
+ * @param t The tree to search
+ * @param key The key to look for
+ * @returns The data value if the key is found, otherwise NULL
+ */
+void* bintree_find(bintree *t, void *key);
 
 #endif /* __libced_bintree_h_ */
