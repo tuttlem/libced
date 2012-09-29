@@ -21,18 +21,22 @@ bintree* bintree_create(bintree_cmp c) {
 /**
  */
 void bintree_destroy_branch(bintree_node *n) {
+
    /* check and destroy any candidate to the left */
    if (n->left) {
       bintree_destroy_branch(n->left);
+      n->left = NULL;
    }
 
    /* check and destroy any candidate to the right */
    if (n->right) {
       bintree_destroy_branch(n->right);
+      n->right = NULL;
    }
 
    /* release the memory for this node */
    free(n);
+   n = NULL;
 }
 
 /**
@@ -73,8 +77,10 @@ bintree_node* bintree_create_leaf(bintree *t,
    /* recurse into the structure if required */
    if ((cval == -1) && (n->left)) {
       bintree_create_leaf(t, n->left, key, data);
+      return n->left;
    } else if ((cval == 1) && (n->right)) {
       bintree_create_leaf(t, n->right, key, data);
+      return n->right;
    }
 
    /* create the new leaf */
