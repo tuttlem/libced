@@ -27,6 +27,9 @@ typedef struct dlist_t {
 #define dlist_foreach(iter, list) \
    for (iter = list->head; iter != NULL; iter = iter->next)
 
+#define dlist_foreach_r(iter, list) \
+   for (iter = list->tail; iter != NULL; iter = iter->prev)
+
 /**
  * Adds an item into a list
  * @param l The list to add the item to
