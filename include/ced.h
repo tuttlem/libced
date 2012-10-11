@@ -3,6 +3,8 @@
 
 #define __libced_ced_h_
 
+#include "log.h"
+
 #include "slist.h"
 #include "dlist.h"
 

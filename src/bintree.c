@@ -22,6 +22,10 @@ bintree* bintree_create(bintree_cmp c) {
  */
 void bintree_destroy_branch(bintree_node *n) {
 
+   /* protect against a bad node */
+   if (!n)
+      return ;
+
    /* check and destroy any candidate to the left */
    if (n->left) {
       bintree_destroy_branch(n->left);
