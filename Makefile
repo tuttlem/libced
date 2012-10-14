@@ -1,16 +1,21 @@
 # Generic Makefile for compiling a shared library.
 
+UNAME := $(shell uname)
+
 CC := clang
-# PKGS := ...
 LIBNAME := ced
 SRCDIR := src
 BUILDDIR := build
-# CFLAGS := -g -Wall `pkg-config --cflags $(PKGS)`
 CFLAGS := -g -Wall -fPIC -g
-# LIBS := `pkg-config --libs $(PKGS)`
 LIBS :=
 TARGET := lib$(LIBNAME).so
 LDFLAGS := -shared -Wl,-soname=$(TARGET)
+
+# check if we're compiling on Darwin, as their linked doesn't
+# support the "soname" switch. Need to change this conditionally
+ifeq ($(UNAME), Darwin)
+   LDFLAGS := -shared -Wl,-install_name,$(TARGET)
+endif
 
 SRCEXT = c
 SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
@@ -24,12 +29,6 @@ $(TARGET): $(OBJECTS)
 $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 	@mkdir -p $(BUILDDIR)
 	@echo " CC $<"; $(CC) $(CFLAGS) -MD -MF $(@:.o=.deps) -c -o $@ $<
-
-install: $(TARGET)
-	@cp bin/$(TARGET) /usr/lib/$(TARGET)
-
-remove:
-	@rm -Rf /usr/lib/$(TARGET)
 
 clean:
 	@echo " Cleaning..."; $(RM) -r $(BUILDDIR) $(TARGET)
